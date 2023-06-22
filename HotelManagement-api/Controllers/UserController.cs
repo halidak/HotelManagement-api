@@ -1,4 +1,5 @@
-﻿using HotelManagement_api.DTOs;
+﻿using AutoMapper;
+using HotelManagement_api.DTOs;
 using HotelManagement_api.Services;
 using Microsoft.AspNetCore.Mvc;
 

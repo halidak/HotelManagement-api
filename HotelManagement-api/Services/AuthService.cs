@@ -1,4 +1,5 @@
-﻿using HotelManagement_api.DTOs;
+﻿using AutoMapper;
+using HotelManagement_api.DTOs;
 using HotelManagement_data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -11,9 +12,12 @@ namespace HotelManagement_api.Services
     public class AuthService
     {
         private readonly UserManager<User> userManager;
-        public AuthService(UserManager<User> userManager)
+        private readonly IMapper mapper;
+
+        public AuthService(UserManager<User> userManager, IMapper mapper)
         {
             this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         public async Task<bool> Register(RegisterDto user)
@@ -23,14 +27,9 @@ namespace HotelManagement_api.Services
             {
                 throw new Exception("User already exists");
             }
-            User us = new User
-            {
-                UserName = user.UserName,
-                Email = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                RoleId = user.RoleId
-            };
+
+            User us = mapper.Map<User>(user);
+           
             var result = await userManager.CreateAsync(us, user.Password);
             if (result.Succeeded)
             {

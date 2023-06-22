@@ -7,6 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 using System.Text;
 using HotelManagement_api.Services;
+using HotelManagement.Infrastructure.Interfaces;
+using HotelManagement.Infrastructure.Repositories;
+using HotelManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +19,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IAccommodationUnitRepository, AccommodationUnitRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

@@ -67,18 +67,6 @@ namespace HotelManagement_api.Controllers
 
 
         //update user
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(string id, [FromBody] UserDto dto)
-        {
-            try
-            {
-                var res = await mediator.Send(new UpdateUser(id, dto));
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+       
     }
 }

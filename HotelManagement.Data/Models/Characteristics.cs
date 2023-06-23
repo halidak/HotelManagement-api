@@ -10,6 +10,7 @@ namespace HotelManagement.Data.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<AccommodationUnit> AccommodationUnits { get; set; }
+        public List<AUnit_Characteristics> AUnit_Characteristics { get; set; }
+
     }
 }

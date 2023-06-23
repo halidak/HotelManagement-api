@@ -26,6 +26,7 @@ builder.Services.AddScoped<IAccommodationUnitRepository, AccommodationUnitReposi
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICharacteristicsRepository, CharacteristicsRepository>();
 builder.Services.AddScoped<IMinibarRepository, MinibarRepository>();
+builder.Services.AddScoped<IPriceRepository, PriceRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 

@@ -14,12 +14,13 @@ namespace HotelManagement.Data.Models
         public string? Image { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public int CharacteristicsId { get; set; }
-        public Characteristics Characteristics { get; set; }
+       
         public List<Price> Prices { get; set; }
         public List<Reservation> Reservations { get; set; }
         public int? MinibarId { get; set; }
         public Minibar Minibar { get; set; }
+        public string? Description { get; set; }
+        public List<AUnit_Characteristics> AUnit_Characteristics { get; set; }
 
     }
 }

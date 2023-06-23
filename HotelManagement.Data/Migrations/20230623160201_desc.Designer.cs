@@ -4,6 +4,7 @@ using HotelManagement_data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230623160201_desc")]
+    partial class desc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,29 +24,6 @@ namespace HotelManagement.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("HotelManagement.Data.Models.AUnit_Characteristics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AccommodationUnitId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CharacteristicsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccommodationUnitId");
-
-                    b.HasIndex("CharacteristicsId");
-
-                    b.ToTable("AUnit_Characteristics");
-                });
 
             modelBuilder.Entity("HotelManagement.Data.Models.AccommodationUnit", b =>
                 {
@@ -54,6 +34,9 @@ namespace HotelManagement.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CharacteristicsId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -78,6 +61,8 @@ namespace HotelManagement.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CharacteristicsId");
 
                     b.HasIndex("MinibarId");
 
@@ -410,32 +395,21 @@ namespace HotelManagement.Data.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("HotelManagement.Data.Models.AUnit_Characteristics", b =>
+            modelBuilder.Entity("HotelManagement.Data.Models.AccommodationUnit", b =>
                 {
-                    b.HasOne("HotelManagement.Data.Models.AccommodationUnit", "AccommodationUnit")
-                        .WithMany("AUnit_Characteristics")
-                        .HasForeignKey("AccommodationUnitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HotelManagement.Data.Models.Characteristics", "Characteristics")
-                        .WithMany("AUnit_Characteristics")
+                        .WithMany("AccommodationUnits")
                         .HasForeignKey("CharacteristicsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccommodationUnit");
-
-                    b.Navigation("Characteristics");
-                });
-
-            modelBuilder.Entity("HotelManagement.Data.Models.AccommodationUnit", b =>
-                {
                     b.HasOne("HotelManagement.Data.Models.Minibar", "Minibar")
                         .WithMany("AccommodationUnits")
                         .HasForeignKey("MinibarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Characteristics");
 
                     b.Navigation("Minibar");
                 });
@@ -551,8 +525,6 @@ namespace HotelManagement.Data.Migrations
 
             modelBuilder.Entity("HotelManagement.Data.Models.AccommodationUnit", b =>
                 {
-                    b.Navigation("AUnit_Characteristics");
-
                     b.Navigation("Prices");
 
                     b.Navigation("Reservations");
@@ -560,7 +532,7 @@ namespace HotelManagement.Data.Migrations
 
             modelBuilder.Entity("HotelManagement.Data.Models.Characteristics", b =>
                 {
-                    b.Navigation("AUnit_Characteristics");
+                    b.Navigation("AccommodationUnits");
                 });
 
             modelBuilder.Entity("HotelManagement.Data.Models.Item", b =>

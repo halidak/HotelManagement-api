@@ -13,6 +13,7 @@ namespace HotelManagement.Infrastructure
         IUserRepository UserRepository { get; }
         ICharacteristicsRepository CharacteristicsRepository { get; }
         IMinibarRepository minibarRepository { get; }
+        IPriceRepository PriceRepository { get; }
 
         Task<bool> CompleteAsync();
     }

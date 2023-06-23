@@ -9,7 +9,8 @@ namespace HotelManagement_api.DTOs
         public string? Image { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public int CharacteristicsId { get; set; }
         public int MinibarId { get; set; }
+        public string Description { get; set; }
+        public List<int> CharacteristicsIds { get; set; }
     }
 }

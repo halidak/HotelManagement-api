@@ -19,17 +19,21 @@ namespace HotelManagement.Infrastructure
 
         public IMinibarRepository minibarRepository { get; }
 
+        public IPriceRepository PriceRepository { get; }
+
         public UnitOfWork(AppDbContext context, 
             IAccommodationUnitRepository accommodationUnitRepository, 
             IUserRepository userRepository,
             ICharacteristicsRepository characteristics,
-            IMinibarRepository minibarRepository)
+            IMinibarRepository minibarRepository,
+            IPriceRepository priceRepository)
         {
             AccommodationUnitRepository = accommodationUnitRepository;
             this.context = context;
             UserRepository = userRepository;
             CharacteristicsRepository = characteristics;
             this.minibarRepository = minibarRepository;
+            PriceRepository = priceRepository;
         }
 
 

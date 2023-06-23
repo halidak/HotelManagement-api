@@ -23,10 +23,6 @@ namespace HotelManagement_data
                 .WithMany(u => u.Users)
                 .HasForeignKey(u => u.RoleId);
 
-            modelBuilder.Entity<AccommodationUnit>()
-                .HasOne(u => u.Characteristics)
-                .WithMany(u => u.AccommodationUnits)
-                .HasForeignKey(u => u.CharacteristicsId);
 
                  modelBuilder.Entity<AccommodationUnit>()
                 .HasOne(u => u.Minibar)
@@ -85,6 +81,16 @@ namespace HotelManagement_data
                 .HasForeignKey(m => m.MinibarId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<AUnit_Characteristics>()
+                .HasOne(a => a.AccommodationUnit)
+                .WithMany(a => a.AUnit_Characteristics)
+                .HasForeignKey(a => a.AccommodationUnitId);
+
+            modelBuilder.Entity<AUnit_Characteristics>()
+                .HasOne(a => a.Characteristics)
+                .WithMany(a => a.AUnit_Characteristics)
+                .HasForeignKey(a => a.CharacteristicsId);
+
             var decimalProps = modelBuilder.Model
             .GetEntityTypes()
             .SelectMany(t => t.GetProperties())
@@ -109,5 +115,6 @@ namespace HotelManagement_data
         public DbSet<Services_Reservation> Services_Reservations { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<Minibar_Reservation> Minibar_Reservations { get; set; }
+        public DbSet<AUnit_Characteristics> AUnit_Characteristics { get; set; }
     }
 }

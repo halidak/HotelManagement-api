@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelManagement_api.DTOs;
+using HotelManagement_api.Mediator.AccommodationUnits;
 using HotelManagement_api.Mediator.Users;
 using HotelManagement_api.Services;
 using MediatR;
@@ -65,8 +66,33 @@ namespace HotelManagement_api.Controllers
 
         //get user by id
 
+        [HttpGet("get-by-id/{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new GetUserById(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         //update user
-       
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(string id, [FromBody] UserDto dto)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new UpdateUser(id, dto)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

@@ -10,6 +10,7 @@ namespace HotelManagement.Infrastructure
     public interface IUnitOfWork
     {
         IAccommodationUnitRepository AccommodationUnitRepository { get; }
+        IUserRepository UserRepository { get; }
 
         Task<bool> CompleteAsync();
     }

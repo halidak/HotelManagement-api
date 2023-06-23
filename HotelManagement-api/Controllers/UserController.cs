@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using HotelManagement_api.DTOs;
+using HotelManagement_api.Mediator.Users;
 using HotelManagement_api.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement_api.Controllers
@@ -10,10 +12,12 @@ namespace HotelManagement_api.Controllers
     public class UserController : Controller
     {
         private readonly AuthService authService;
+        private readonly IMediator mediator;
 
-        public UserController(AuthService authService)
+        public UserController(AuthService authService, IMediator mediator)
         {
             this.authService = authService;
+            this.mediator = mediator;
         }
 
         [HttpPost("register")]
@@ -36,6 +40,39 @@ namespace HotelManagement_api.Controllers
             try
             {
                 var res = await authService.Login(user);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //get all users
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var res = await mediator.Send(new GetAllUsers());
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //get user by id
+
+
+        //update user
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(string id, [FromBody] UserDto dto)
+        {
+            try
+            {
+                var res = await mediator.Send(new UpdateUser(id, dto));
                 return Ok(res);
             }
             catch (Exception ex)

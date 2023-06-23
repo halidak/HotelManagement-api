@@ -13,10 +13,15 @@ namespace HotelManagement.Infrastructure
         private readonly AppDbContext context;
         public IAccommodationUnitRepository AccommodationUnitRepository { get; }
 
-        public UnitOfWork(AppDbContext context, IAccommodationUnitRepository accommodationUnitRepository)
+        public IUserRepository UserRepository { get; }
+
+        public UnitOfWork(AppDbContext context, 
+            IAccommodationUnitRepository accommodationUnitRepository, 
+            IUserRepository userRepository)
         {
             AccommodationUnitRepository = accommodationUnitRepository;
             this.context = context;
+            UserRepository = userRepository;
         }
 
 

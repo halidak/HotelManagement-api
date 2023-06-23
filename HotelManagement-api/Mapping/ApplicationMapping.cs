@@ -13,6 +13,7 @@ namespace HotelManagement_api.Mapping
             CreateMap<RegisterDto, User>();
             CreateMap<AccommodationUnit, UnitDto>();
             CreateMap<UnitDto, AccommodationUnit>();
+            CreateMap<UserDto, User>();
         }
     }
 }

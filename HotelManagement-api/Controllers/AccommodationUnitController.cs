@@ -70,7 +70,7 @@ namespace HotelManagement_api.Controllers
         }
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UnitDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] PutUnitDto dto)
         {
             try
             {

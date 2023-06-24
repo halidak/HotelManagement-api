@@ -7,7 +7,7 @@ using MediatR;
 
 namespace HotelManagement_api.Mediator.AccommodationUnits
 {
-    public record UpdateUnitQuery(int id, UnitDto dto) : IRequest<Result<AccommodationUnit>>;
+    public record UpdateUnitQuery(int id, PutUnitDto dto) : IRequest<Result<AccommodationUnit>>;
 
     public class UpdateUnitHandler : IRequestHandler<UpdateUnitQuery, Result<AccommodationUnit>>
     {
@@ -25,15 +25,22 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
             {
                 throw new Exception("Could not find unit");
             }
-            _mapper.Map(request.dto, unit);
+
+            unit.Capacity = request.dto.Capacity;
+            unit.Floor = request.dto.Floor;
+            unit.Image = request.dto.Image;
+            unit.Name = request.dto.Name;
+            unit.Type = request.dto.Type;
+            unit.Description = request.dto.Description;
+
             await _unitOfWork.CompleteAsync();
 
-            var updatedUnitDto = _mapper.Map<UnitDto>(unit);
+           // var updatedUnitDto = _mapper.Map<PutUnitDto>(unit);
 
             var result = new Result<AccommodationUnit>
             {
                 IsSuccess = true,
-                Data = updatedUnitDto
+                Data = unit
             };
 
             return result;

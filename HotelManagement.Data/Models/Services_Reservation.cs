@@ -12,6 +12,6 @@ namespace HotelManagement.Data.Models
         public int ReservationId { get; set; }
         public Reservation Reservation { get; set; }
         public int ServiceId { get; set; }
-        public Services Service { get; set; }
+        public Service Service { get; set; }
     }
 }

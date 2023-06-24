@@ -10,6 +10,7 @@ using HotelManagement_api.Services;
 using HotelManagement.Infrastructure.Interfaces;
 using HotelManagement.Infrastructure.Repositories;
 using HotelManagement.Infrastructure;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICharacteristicsRepository, CharacteristicsRepository>();
 builder.Services.AddScoped<IMinibarRepository, MinibarRepository>();
 builder.Services.AddScoped<IPriceRepository, PriceRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 
@@ -64,6 +66,11 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddHttpLogging(httpLogging =>
+{
+    httpLogging.LoggingFields = HttpLoggingFields.All;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -78,6 +85,8 @@ app.UseHttpsRedirection();
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseAuthorization();
+
+app.UseHttpLogging();
 
 app.MapControllers();
 

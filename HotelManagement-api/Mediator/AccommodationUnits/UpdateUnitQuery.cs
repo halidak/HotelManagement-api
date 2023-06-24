@@ -26,16 +26,10 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
                 throw new Exception("Could not find unit");
             }
 
-            unit.Capacity = request.dto.Capacity;
-            unit.Floor = request.dto.Floor;
-            unit.Image = request.dto.Image;
-            unit.Name = request.dto.Name;
-            unit.Type = request.dto.Type;
-            unit.Description = request.dto.Description;
+            _mapper.Map(request.dto, unit);
 
             await _unitOfWork.CompleteAsync();
 
-           // var updatedUnitDto = _mapper.Map<PutUnitDto>(unit);
 
             var result = new Result<AccommodationUnit>
             {

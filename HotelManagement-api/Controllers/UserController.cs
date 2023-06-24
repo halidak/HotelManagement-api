@@ -94,5 +94,20 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        //delete user
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new DeleteUser(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

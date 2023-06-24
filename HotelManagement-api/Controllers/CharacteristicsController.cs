@@ -9,15 +9,18 @@ namespace HotelManagement_api.Controllers
     public class CharacteristicsController : Controller
     {
         private readonly IMediator mediator;
+        private readonly ILogger<CharacteristicsController> logger;
 
-        public CharacteristicsController(IMediator mediator)
+        public CharacteristicsController(IMediator mediator, ILogger<CharacteristicsController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [HttpGet("get-all")]
         public async Task<IActionResult> Get()
         {
+            logger.LogInformation("Get all characteristics");
             try
             {
                 return Ok(await mediator.Send(new GetAllCh()));

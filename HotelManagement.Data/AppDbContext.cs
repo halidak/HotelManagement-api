@@ -107,7 +107,7 @@ namespace HotelManagement_data
         public DbSet<AccommodationUnit> AccommodationUnits { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<Characteristics> Characteristics { get; set; }
-        public DbSet<Services> Services { get; set; }
+        public DbSet<Service> Services { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Minibar> Minibars { get; set; }
         public DbSet<Minibar_Item> Minibar_Items { get; set; }

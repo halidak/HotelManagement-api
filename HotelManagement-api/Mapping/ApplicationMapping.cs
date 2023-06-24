@@ -16,6 +16,10 @@ namespace HotelManagement_api.Mapping
             CreateMap<UserDto, User>();
             CreateMap<PriceDto, Price>();
             CreateMap<Price, PriceDto>();
+            CreateMap<PutUnitDto, AccommodationUnit>();
+            CreateMap<AccommodationUnit, PutUnitDto>();
+            CreateMap<ServiceDto, Service>();   
+            CreateMap<Service, ServiceDto>();
         }
     }
 }

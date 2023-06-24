@@ -19,8 +19,18 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
         }
         public async Task<AccommodationUnit> Handle(GetUnitById request, CancellationToken cancellationToken)
         {
-            var unit = await context.AccommodationUnits.Include(a => a.Prices.Where(p => p.PeriodOf <= DateTime.Now || p.PeriodTo >= DateTime.Now)).Include(a => a.AUnit_Characteristics)
-                 .ThenInclude(ac => ac.Characteristics).FirstOrDefaultAsync(a => a.Id == request.id);
+                    var unit = await context.AccommodationUnits
+              .Include(a => a.AUnit_Characteristics)
+                  .ThenInclude(ac => ac.Characteristics)
+              .FirstOrDefaultAsync(a => a.Id == request.id);
+
+            if (unit != null)
+            {
+                unit.Prices = await context.Prices
+                    .Where(p => p.AccommodationUnitId == unit.Id && p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now)
+                    .ToListAsync();
+            }
+
             if (unit == null)
             {
                 throw new Exception("Could not find unit");

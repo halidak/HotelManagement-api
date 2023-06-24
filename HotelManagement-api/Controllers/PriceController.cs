@@ -10,15 +10,19 @@ namespace HotelManagement_api.Controllers
     public class PriceController : Controller
     {
         private readonly IMediator mediator;
+        private readonly ILogger<PriceController> logger;
 
-        public PriceController(IMediator mediator)
+        public PriceController(IMediator mediator, ILogger<PriceController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
+
         }
 
         [HttpPost("add-price")]
         public async Task<IActionResult> Add([FromBody] PriceDto dto)
         {
+            logger.LogInformation("Add price");
             try
             {
                 return Ok(await mediator.Send(new AddPrice(dto)));

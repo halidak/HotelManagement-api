@@ -29,7 +29,14 @@ namespace HotelManagement_api.Services
             }
 
             User us = mapper.Map<User>(user);
-           
+            if (user.RoleId == 3)
+            {
+                us.Approved = true;
+            }
+            else
+            {
+                us.Approved = false;
+            }
             var result = await userManager.CreateAsync(us, user.Password);
             if (result.Succeeded)
             {
@@ -47,6 +54,10 @@ namespace HotelManagement_api.Services
             if (u == null)
             {
                 throw new Exception("User do not exists");
+            }
+            if (!u.Approved)
+            {
+                throw new Exception("User is not approved");
             }
 
             if (await userManager.CheckPasswordAsync(u, user.Password))
@@ -74,6 +85,48 @@ namespace HotelManagement_api.Services
             else
             {
                 throw new Exception("Username and password not match");
+            }
+        }
+
+        //approve employee
+        public async Task<bool> ApproveEmployee(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new Exception("user not found");
+            }
+
+            user.Approved = true;
+
+            var result = await userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("something went wrong");
+            }
+        }
+
+        public async Task<bool> ChangePassword(string userId, ChangePasswordDto user)
+        {
+            var u = await userManager.FindByIdAsync(userId);
+            if (u == null)
+            {
+                throw new Exception("User not found");
+            }
+            var result = await userManager.ChangePasswordAsync(u, user.OldPassword, user.NewPassword);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("Something went wrong");
             }
         }
     }

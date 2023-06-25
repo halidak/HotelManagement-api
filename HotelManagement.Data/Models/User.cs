@@ -15,6 +15,7 @@ namespace HotelManagement_data.Models
         public int? RoleId { get; set; }
         public Role Role { get; set; }
         public string? Image { get; set; }
+        public bool Approved { get; set; }
         public List<Reservation> Reservations { get; set; }
     }
 }

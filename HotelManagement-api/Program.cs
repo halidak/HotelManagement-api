@@ -11,6 +11,7 @@ using HotelManagement.Infrastructure.Interfaces;
 using HotelManagement.Infrastructure.Repositories;
 using HotelManagement.Infrastructure;
 using Microsoft.AspNetCore.HttpLogging;
+using HotelManagement.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,8 @@ builder.Services.AddScoped<ICharacteristicsRepository, CharacteristicsRepository
 builder.Services.AddScoped<IMinibarRepository, MinibarRepository>();
 builder.Services.AddScoped<IPriceRepository, PriceRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<Minibar_ItemService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 

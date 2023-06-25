@@ -14,5 +14,6 @@ namespace HotelManagement_api.DTOs
         public int RoleId { get; set; }
         [Required]
         public string Password { get; set; }
+        public bool Approved { get; set; }
     }
 }

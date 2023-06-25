@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HotelManagement.Data.Models;
 using HotelManagement_api.DTOs;
-using HotelManagement_api.Mediator.AccommodationUnits;
 using HotelManagement_data.Models;
 
 namespace HotelManagement_api.Mapping
@@ -20,6 +19,12 @@ namespace HotelManagement_api.Mapping
             CreateMap<AccommodationUnit, PutUnitDto>();
             CreateMap<ServiceDto, Service>();   
             CreateMap<Service, ServiceDto>();
+            CreateMap<Item, ItemDto>();
+            CreateMap<ItemDto, Item>();
+            CreateMap<Minibar_Item, Minibar_ItemDto>();
+            CreateMap<Minibar_ItemDto, Minibar_Item>();
+            CreateMap<Minibar, MinibarDto>();
+            CreateMap<MinibarDto, Minibar>();
         }
     }
 }

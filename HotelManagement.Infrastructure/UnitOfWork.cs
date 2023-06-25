@@ -23,13 +23,16 @@ namespace HotelManagement.Infrastructure
 
         public IServiceRepository ServiceRepository { get; }
 
+        public IItemRepository ItemRepository { get; }
+
         public UnitOfWork(AppDbContext context, 
-            IAccommodationUnitRepository accommodationUnitRepository, 
+            IAccommodationUnitRepository accommodationUnitRepository,
             IUserRepository userRepository,
             ICharacteristicsRepository characteristics,
             IMinibarRepository minibarRepository,
             IPriceRepository priceRepository,
-            IServiceRepository serviceRepository)
+            IServiceRepository serviceRepository,
+            IItemRepository itemRepository)
         {
             AccommodationUnitRepository = accommodationUnitRepository;
             this.context = context;
@@ -38,6 +41,7 @@ namespace HotelManagement.Infrastructure
             this.minibarRepository = minibarRepository;
             PriceRepository = priceRepository;
             ServiceRepository = serviceRepository;
+            ItemRepository = itemRepository;
         }
 
 

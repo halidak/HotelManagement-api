@@ -109,5 +109,61 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        [HttpPost("approve/{userId}")]
+        public async Task<IActionResult> Approve(string userId)
+        {
+            try
+            {
+                var res = await authService.ApproveEmployee(userId);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("change-password/{id}")]
+        public async Task<IActionResult> ChangePassword(string id, [FromBody] ChangePasswordDto user)
+        {
+            try
+            {
+                var res = await authService.ChangePassword(id, user);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("all-approved")]
+        public async Task<IActionResult> GetAllApproved()
+        {
+            try
+            {
+                var res = await mediator.Send(new GetAllEmployees());
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("all-unapproved")]
+        public async Task<IActionResult> GetAllUnapproved()
+        {
+            try
+            {
+                var res = await mediator.Send(new GetNotApproved());
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

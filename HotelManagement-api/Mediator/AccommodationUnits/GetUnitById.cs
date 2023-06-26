@@ -20,6 +20,7 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
         public async Task<AccommodationUnit> Handle(GetUnitById request, CancellationToken cancellationToken)
         {
                     var unit = await context.AccommodationUnits
+                 .Include(r => r.Reservations)
               .Include(a => a.AUnit_Characteristics)
                   .ThenInclude(ac => ac.Characteristics)
               .FirstOrDefaultAsync(a => a.Id == request.id);

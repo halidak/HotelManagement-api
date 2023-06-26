@@ -3,6 +3,7 @@ using HotelManagement.Contracts.Models;
 using HotelManagement.Data.Models;
 using HotelManagement_api.DTOs;
 using HotelManagement_data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagement_api.Services
 {
@@ -43,6 +44,29 @@ namespace HotelManagement_api.Services
 
             return newItem;
 
+        }
+
+        public async Task<Minibar_Item> DeleteMinibarItems(int minibarId, int itemId)
+        {
+            var minibar = await context.Minibars.FirstOrDefaultAsync(m => m.Id == minibarId);
+            var item = await context.Items.FirstOrDefaultAsync(i => i.Id == itemId);
+
+            var minibarItem = await context.Minibar_Items.FirstOrDefaultAsync(mi => mi.MinibarId == minibar.Id && mi.ItemId == item.Id);
+
+            if (minibarItem == null)
+            {
+                throw new Exception("Could not find minibar item");
+            }
+
+            if (minibar == null || item == null)
+            {
+                throw new Exception("Could not find");
+            }
+
+            context.Minibar_Items.Remove(minibarItem);
+            await context.SaveChangesAsync();
+
+            return minibarItem;
         }
     }
 }

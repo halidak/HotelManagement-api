@@ -23,6 +23,7 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
         public async Task<List<AccommodationUnit>> Handle(GetAll request, CancellationToken cancellationToken)
         {
             return await context.AccommodationUnits
+                .Include(r => r.Reservations)
                 .Include(a => a.Prices.Where(p => p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now))
                 .Include(a => a.AUnit_Characteristics)
                     .ThenInclude(ac => ac.Characteristics)

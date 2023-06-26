@@ -65,7 +65,34 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            logger.LogInformation("Delete minibar");
+            try
+            {
+                return Ok(await mediator.Send(new DeleteMinibar(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
+        [HttpDelete("delete-items/{minibarId}/{itemId}")]
+        public async Task<IActionResult> DeleteItems(int minibarId, int itemId)
+        {
+            logger.LogInformation("Delete minibar items");
+            try
+            {
+                var item = await service.DeleteMinibarItems(minibarId, itemId);
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

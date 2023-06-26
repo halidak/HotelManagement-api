@@ -36,6 +36,20 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        [HttpGet("get-by-id")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            logger.LogInformation("Get minibar by id");
+            try
+            {
+                return Ok(await mediator.Send(new GetMinibarById(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] MinibarDto dto)
         {

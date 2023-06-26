@@ -23,10 +23,7 @@ namespace HotelManagement_api.Mediator.Minibars
             var minibar = await context.Minibars
                 .Include(minibar => minibar.Minibar_Items)
                 .ThenInclude(minibarItem => minibarItem.Item)
-                .Include(minibar => minibar.AccommodationUnits)
-                
-
-              .FirstOrDefaultAsync(a => a.Id == request.id);
+                .FirstOrDefaultAsync();
 
             if (minibar == null)
             {

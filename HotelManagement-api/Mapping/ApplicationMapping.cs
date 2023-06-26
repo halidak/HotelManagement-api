@@ -25,6 +25,9 @@ namespace HotelManagement_api.Mapping
             CreateMap<Minibar_ItemDto, Minibar_Item>();
             CreateMap<Minibar, MinibarDto>();
             CreateMap<MinibarDto, Minibar>();
+            CreateMap<Reservation, ReservationDto>();
+            CreateMap<ReservationDto, Reservation>()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => false));
         }
     }
 }

@@ -91,5 +91,35 @@ namespace HotelManagement_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("dates/{id}")]
+        public async Task<IActionResult> Dates(int id)
+        {
+            logger.LogInformation("get dates");
+            try
+            {
+                var res = await service.GetUnitReservationDates(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("date-range/{id}")]
+        public async Task<IActionResult> Dates2(int id)
+        {
+            logger.LogInformation("get dates");
+            try
+            {
+                var res = await service.GetUnitReservationDates2(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -32,13 +32,13 @@ namespace HotelManagement_api.Services
             }
 
             var overlappingReservation = await context.Reservations
-                .FirstOrDefaultAsync(r =>
+                .Where(r =>
                     r.AccommodationUnitId == dto.AccommodationUnitId &&
                     r.Status &&
-                    !(r.CheckOut < dto.CheckIn || r.CheckIn > dto.CheckOut));
+                    !(r.CheckOut <= dto.CheckIn || r.CheckIn >= dto.CheckOut)).ToListAsync();
 
 
-            if (overlappingReservation == null)
+            if (overlappingReservation.Count == 0)
             {
                 var reservation = mapper.Map<Reservation>(dto);
                 reservation.Status = false;
@@ -90,6 +90,36 @@ namespace HotelManagement_api.Services
         {
             var res = await context.Reservations.Where(r => r.Status == false).ToListAsync();
             return res;
+        }
+
+        public async Task<List<DateTime>> GetUnitReservationDates(int id)
+        {
+            var res = await context.Reservations.Where(r => r.AccommodationUnitId == id).ToListAsync();
+
+            var reservationDates = res.SelectMany(r =>
+              Enumerable.Range(0, (int)(r.CheckOut - r.CheckIn).TotalDays + 1)
+                  .Select(offset => r.CheckIn.AddDays(offset)))
+              .Distinct()
+              .ToList();
+
+            return reservationDates;
+
+
+        }
+
+        public async Task<List<ReservationDateRange>> GetUnitReservationDates2(int id)
+        {
+            var reservations = await context.Reservations
+        .Where(r => r.AccommodationUnitId == id)
+        .ToListAsync();
+
+            var reservationDateRanges = reservations.Select(r => new ReservationDateRange
+            {
+                CheckIn = r.CheckIn,
+                CheckOut = r.CheckOut
+            }).ToList();
+
+            return reservationDateRanges;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HotelManagement_api.DTOs;
 using HotelManagement_api.Mediator.Characteristics;
+using HotelManagement_api.Mediator.Items;
 using HotelManagement_api.Mediator.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,20 @@ namespace HotelManagement_api.Controllers
             try
             {
                 return Ok(await mediator.Send(new AddService(dto)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            logger.LogInformation("Delete service");
+            try
+            {
+                return Ok(await mediator.Send(new DeleteService(id)));
             }
             catch (Exception ex)
             {

@@ -34,6 +34,7 @@ builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<Minibar_ItemService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ReservationService>();
+builder.Services.AddScoped<PriceService>();
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 
 builder.Services.AddDbContext<AppDbContext>(options =>

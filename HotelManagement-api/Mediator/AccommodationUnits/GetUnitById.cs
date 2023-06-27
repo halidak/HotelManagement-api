@@ -25,12 +25,12 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
                   .ThenInclude(ac => ac.Characteristics)
               .FirstOrDefaultAsync(a => a.Id == request.id);
 
-            //if (unit != null)
-            //{
-            //    unit.Prices = await context.Prices
-            //        .Where(p => p.AccommodationUnitId == unit.Id && p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now)
-            //        .ToListAsync();
-            //}
+            if (unit != null)
+            {
+                unit.Prices = await context.Prices
+                    .Where(p => p.AccommodationUnitId == unit.Id && p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now)
+                    .ToListAsync();
+            }
 
             if (unit == null)
             {

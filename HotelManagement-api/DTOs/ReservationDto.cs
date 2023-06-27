@@ -10,5 +10,6 @@ namespace HotelManagement_api.DTOs
         public int NumberOfPeople { get; set; }
         public int AccommodationUnitId { get; set; }
         public string UserId { get; set; }
+        public List<int> ServiceIds { get; set; }
     }
 }

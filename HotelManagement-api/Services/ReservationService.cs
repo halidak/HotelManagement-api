@@ -44,6 +44,22 @@ namespace HotelManagement_api.Services
                 reservation.Status = false;
                 context.Reservations.Add(reservation);
                 await context.SaveChangesAsync();
+
+                var services = dto.ServiceIds;
+
+                foreach (var s in services)
+                {
+                    var rs = new Services_Reservation
+                    {
+                        ReservationId = reservation.Id,
+                        ServiceId = s
+                    };
+
+                    context.Services_Reservations.Add(rs);
+                }
+
+                await context.SaveChangesAsync();
+
                 return reservation;
             }
             else

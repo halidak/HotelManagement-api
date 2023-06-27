@@ -1,5 +1,6 @@
 ﻿using HotelManagement_api.DTOs;
 using HotelManagement_api.Mediator.Price;
+using HotelManagement_api.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,13 @@ namespace HotelManagement_api.Controllers
     {
         private readonly IMediator mediator;
         private readonly ILogger<PriceController> logger;
+        private readonly PriceService priceService;
 
-        public PriceController(IMediator mediator, ILogger<PriceController> logger)
+        public PriceController(IMediator mediator, ILogger<PriceController> logger, PriceService service)
         {
             this.mediator = mediator;
             this.logger = logger;
-
+            priceService = service;
         }
 
         [HttpPost("add-price")]
@@ -26,6 +28,21 @@ namespace HotelManagement_api.Controllers
             try
             {
                 return Ok(await mediator.Send(new AddPrice(dto)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-price/{id}")]
+        public async Task<IActionResult> Get(int id, DateTime checkIn)
+        {
+            logger.LogInformation("Get price");
+            try
+            {
+                var price = await priceService.PriceForPeriod(id, checkIn);
+                return Ok(price);
             }
             catch (Exception ex)
             {

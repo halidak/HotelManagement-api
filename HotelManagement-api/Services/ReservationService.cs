@@ -32,10 +32,10 @@ namespace HotelManagement_api.Services
             }
 
             var overlappingReservation = await context.Reservations
-                .Where(r =>
-                    r.AccommodationUnitId == dto.AccommodationUnitId &&
-                    r.Status &&
-                    !(r.CheckOut <= dto.CheckIn || r.CheckIn >= dto.CheckOut)).ToListAsync();
+             .Where(r =>
+                 r.AccommodationUnitId == dto.AccommodationUnitId &&
+                 r.Status &&
+                 !(r.CheckOut < dto.CheckIn || r.CheckIn > dto.CheckOut)).ToListAsync();
 
 
             if (overlappingReservation.Count == 0)
@@ -108,20 +108,18 @@ namespace HotelManagement_api.Services
             return res;
         }
 
-        public async Task<List<DateTime>> GetUnitReservationDates(int id)
+        public async Task<List<string>> GetUnitReservationDates(int id)
         {
             var res = await context.Reservations.Where(r => r.AccommodationUnitId == id).ToListAsync();
 
             var reservationDates = res.SelectMany(r =>
-              Enumerable.Range(0, (int)(r.CheckOut - r.CheckIn).TotalDays + 1)
-                  .Select(offset => r.CheckIn.AddDays(offset)))
-              .Distinct()
-              .ToList();
+                Enumerable.Range(0, (int)(r.CheckOut - r.CheckIn).TotalDays + 1)
+                    .Select(offset => r.CheckIn.AddDays(offset).Date.ToString("yyyy-MM-dd"))) // Formatiranje datuma kao "yyyy-MM-dd"
+                    .ToList();
 
             return reservationDates;
-
-
         }
+
 
         public async Task<List<ReservationDateRange>> GetUnitReservationDates2(int id)
         {

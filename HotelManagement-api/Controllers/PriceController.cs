@@ -36,7 +36,7 @@ namespace HotelManagement_api.Controllers
         }
 
         [HttpGet("get-price/{id}")]
-        public async Task<IActionResult> Get(int id, DateTime checkIn)
+        public async Task<IActionResult> Get(int id, [FromQuery]DateTime checkIn)
         {
             logger.LogInformation("Get price");
             try

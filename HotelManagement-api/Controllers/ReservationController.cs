@@ -47,7 +47,7 @@ namespace HotelManagement_api.Controllers
             }
         }
 
-        [HttpPost("get-by-id/{id}")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             logger.LogInformation("get reservation by id");

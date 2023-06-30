@@ -76,9 +76,9 @@ namespace HotelManagement_data
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Minibar_Reservation>()
-                .HasOne(m => m.Minibar)
+                .HasOne(m => m.Item)
                 .WithMany(m => m.Minibar_Reservations)
-                .HasForeignKey(m => m.MinibarId)
+                .HasForeignKey(m => m.ItemId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<AUnit_Characteristics>()

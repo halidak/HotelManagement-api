@@ -12,6 +12,5 @@ namespace HotelManagement.Data.Models
         public string Name { get; set; }
         public List<Minibar_Item> Minibar_Items { get; set; }
         public List<AccommodationUnit> AccommodationUnits { get; set; }
-        public List<Minibar_Reservation> Minibar_Reservations { get; set; }
     }
 }

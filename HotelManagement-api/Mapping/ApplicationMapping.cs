@@ -30,6 +30,8 @@ namespace HotelManagement_api.Mapping
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => false));
             CreateMap<Characteristics, CharacteristicDto>();
             CreateMap<CharacteristicDto, Characteristics>();
+            CreateMap<Receipt, ReceiptDto>();
+            CreateMap<ReceiptDto, Receipt>();
         }
     }
 }

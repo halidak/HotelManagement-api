@@ -13,5 +13,7 @@ namespace HotelManagement.Data.Models
         public string Code { get; set; }
         public double Price { get; set; }
         public List<Minibar_Item> Minibar_Items { get; set; }
+        public List<Minibar_Reservation> Minibar_Reservations { get; set; }
+
     }
 }

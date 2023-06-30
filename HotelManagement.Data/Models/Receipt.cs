@@ -11,6 +11,6 @@ namespace HotelManagement.Data.Models
         public int Id { get; set; }
         public int ReservationId { get; set; }
         public Reservation Reservation { get; set; }
-        public int TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
     }
 }

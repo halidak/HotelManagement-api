@@ -4,6 +4,7 @@ using HotelManagement_data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230630102724_price")]
+    partial class price
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,10 +179,7 @@ namespace HotelManagement.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
+                    b.Property<int>("MinibarId")
                         .HasColumnType("int");
 
                     b.Property<int>("ReservationId")
@@ -187,7 +187,7 @@ namespace HotelManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("MinibarId");
 
                     b.HasIndex("ReservationId");
 
@@ -467,9 +467,9 @@ namespace HotelManagement.Data.Migrations
 
             modelBuilder.Entity("HotelManagement.Data.Models.Minibar_Reservation", b =>
                 {
-                    b.HasOne("HotelManagement.Data.Models.Item", "Item")
+                    b.HasOne("HotelManagement.Data.Models.Minibar", "Minibar")
                         .WithMany("Minibar_Reservations")
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("MinibarId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -479,7 +479,7 @@ namespace HotelManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Item");
+                    b.Navigation("Minibar");
 
                     b.Navigation("Reservation");
                 });
@@ -572,8 +572,6 @@ namespace HotelManagement.Data.Migrations
             modelBuilder.Entity("HotelManagement.Data.Models.Item", b =>
                 {
                     b.Navigation("Minibar_Items");
-
-                    b.Navigation("Minibar_Reservations");
                 });
 
             modelBuilder.Entity("HotelManagement.Data.Models.Minibar", b =>
@@ -581,6 +579,8 @@ namespace HotelManagement.Data.Migrations
                     b.Navigation("AccommodationUnits");
 
                     b.Navigation("Minibar_Items");
+
+                    b.Navigation("Minibar_Reservations");
                 });
 
             modelBuilder.Entity("HotelManagement.Data.Models.Reservation", b =>

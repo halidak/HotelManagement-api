@@ -1,22 +1,20 @@
-﻿using HotelManagement.Infrastructure;
-using HotelManagement_api.Mediator.Receipts;
+﻿using HotelManagement.Data.Models;
 using HotelManagement_data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagement_api.Mediator.Receipts
 {
-    public record GetReceiptById(int id) : IRequest<HotelManagement.Data.Models.Receipt>;
-    public class GetReceiptByIdHandler : IRequestHandler<GetReceiptById, HotelManagement.Data.Models.Receipt>
-    {
+    public record GetReceiptByResId(int id): IRequest<Receipt>;
 
+    public class GetByIdHandler : IRequestHandler<GetReceiptByResId, Receipt>
+    {
         private readonly AppDbContext context;
-        public GetReceiptByIdHandler(AppDbContext context)
+        public GetByIdHandler(AppDbContext context)
         {
             this.context = context;
         }
-
-        public async Task<HotelManagement.Data.Models.Receipt> Handle(GetReceiptById request, CancellationToken cancellationToken)
+        public async Task<Receipt> Handle(GetReceiptByResId request, CancellationToken cancellationToken)
         {
             var receipt = await context.Receipts
                 .Include(receipts => receipts.Reservation)
@@ -25,16 +23,16 @@ namespace HotelManagement_api.Mediator.Receipts
                 .Include(receipts => receipts.Reservation)
                     .ThenInclude(reservation => reservation.Minibar_Reservations)
                         .ThenInclude(mr => mr.Item)
-                .FirstOrDefaultAsync(a => a.Id == request.id);
+                .Include(receipts => receipts.Reservation.User)
+                .Include(u => u.Reservation.AccommodationUnit)
+                .FirstOrDefaultAsync(a => a.ReservationId == request.id);
 
             if (receipt == null)
             {
                 throw new Exception("Could not find receipt");
             }
-
             return receipt;
         }
-
-
     }
+    
 }

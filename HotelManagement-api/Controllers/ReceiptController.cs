@@ -4,6 +4,7 @@ using HotelManagement_api.Mediator.Receipts;
 using HotelManagement_api.Mediator.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace HotelManagement_api.Controllers
 {
@@ -83,6 +84,19 @@ namespace HotelManagement_api.Controllers
             try
             {
                 return Ok(await mediator.Send(new AddItmesReservation(dto)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-by-resId/{id}")]
+        public async Task<IActionResult> GetByResId(int id)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new GetReceiptByResId(id)));
             }
             catch (Exception ex)
             {

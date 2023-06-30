@@ -76,6 +76,19 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        [HttpPost("add-items-reservations")]
+        public async Task<IActionResult> Add([FromBody] Minibar_ReservationsDto dto)
+        {
+            logger.LogInformation("add items");
+            try
+            {
+                return Ok(await mediator.Send(new AddItmesReservation(dto)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

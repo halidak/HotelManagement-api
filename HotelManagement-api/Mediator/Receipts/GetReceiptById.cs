@@ -20,11 +20,13 @@ namespace HotelManagement_api.Mediator.Receipts
 
         public async Task<HotelManagement.Data.Models.Receipt> Handle(GetReceiptById request, CancellationToken cancellationToken)
         {
-            var receipt = context.Receipts
+            var receipt = await context.Receipts
                 .Include(receipts => receipts.Reservation)
-                .ThenInclude(service => service.Services_Reservations)
+                    .ThenInclude(reservation => reservation.Services_Reservations)
+                        .ThenInclude(sr => sr.Service)
                 .Include(receipts => receipts.Reservation)
-                .ThenInclude(items => items.Minibar_Reservations)
+                    .ThenInclude(reservation => reservation.Minibar_Reservations)
+                        .ThenInclude(mr => mr.Item)
                 .FirstOrDefaultAsync(a => a.Id == request.id);
 
             if (receipt == null)
@@ -32,8 +34,9 @@ namespace HotelManagement_api.Mediator.Receipts
                 throw new Exception("Could not find receipt");
             }
 
-            return await receipt;
+            return receipt;
         }
+
 
     }
 }

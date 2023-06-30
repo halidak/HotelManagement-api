@@ -47,6 +47,21 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        [HttpPost("get-by-id/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            logger.LogInformation("get reservation by id");
+            try
+            {
+                var res = await service.ReservationById(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("approved")]
         public async Task<IActionResult> GetAllAproved()
         {
@@ -69,6 +84,21 @@ namespace HotelManagement_api.Controllers
             try
             {
                 var res = await service.GetNotApproved();
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("without-receipts")]
+        public async Task<IActionResult> GetWithoutReceipt()
+        {
+            logger.LogInformation("all approved reservations without receipts");
+            try
+            {
+                var res = await service.GetWithoutReceipt();
                 return Ok(res);
             }
             catch (Exception ex)

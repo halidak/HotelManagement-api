@@ -1,5 +1,7 @@
 ﻿using HotelManagement_api.DTOs;
+using HotelManagement_api.Mediator.Minibars;
 using HotelManagement_api.Mediator.Receipts;
+using HotelManagement_api.Mediator.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,5 +33,49 @@ namespace HotelManagement_api.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            logger.LogInformation("all receipts");
+            try
+            {
+                return Ok(await mediator.Send(new GetAllReceipts()));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-by-id/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            logger.LogInformation("Get receipt by id");
+            try
+            {
+                return Ok(await mediator.Send(new GetReceiptById(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-by-user-id/{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            logger.LogInformation("Get receipt by user id");
+            try
+            {
+                return Ok(await mediator.Send(new GetReceiptByUserId(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }

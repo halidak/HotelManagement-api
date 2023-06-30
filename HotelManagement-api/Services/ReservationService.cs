@@ -96,6 +96,18 @@ namespace HotelManagement_api.Services
             return res;
         }
 
+        public async Task<Reservation> ReservationById(int id)
+        {
+            var res = await context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
+            if (res == null)
+            {
+                throw new Exception("reservation does not exist");
+            }
+
+
+            return res;
+        }
+
         public async Task<List<Reservation>> GetAllApproved() 
         {
             var res = await context.Reservations.Where(r => r.Status == true).ToListAsync();
@@ -105,6 +117,12 @@ namespace HotelManagement_api.Services
         public async Task<List<Reservation>> GetNotApproved()
         {
             var res = await context.Reservations.Where(r => r.Status == false).ToListAsync();
+            return res;
+        }
+
+        public async Task<List<Reservation>> GetWithoutReceipt()
+        {
+            var res = await context.Reservations.Where(r => r.Receipts.Count == 0 && r.Status == true).ToListAsync();
             return res;
         }
 

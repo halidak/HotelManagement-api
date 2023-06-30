@@ -40,23 +40,16 @@ namespace HotelManagement_api.Mediator.Receipts
             var price = await context.Prices.FirstOrDefaultAsync(p => p.PeriodOf <= res.CheckIn && p.PeriodTo >= res.CheckOut);
             var totalPrice = price.PricePerNight * res.NumberOfPeople;
 
-            foreach (var i in request.dto.MinibarItemsIds)
+            var minibarItems = await context.Minibar_Reservations.Include(u => u.Item)
+               .Where(m => m.ReservationId == request.dto.ReservationId)
+               .ToListAsync();
+
+            foreach (var item in minibarItems)
             {
-                var item = await context.Items.FirstOrDefaultAsync(it => it.Id == i);
-
-                var index = request.dto.MinibarItemsIds.IndexOf(i);
-                var amount = request.dto.AmountOfItems[index];
-
-                totalPrice = totalPrice + (decimal)item.Price * amount;
-
-                var minibarRes = new Minibar_Reservation
+                if (item.Item != null && item.Item.Price != null)
                 {
-                    ItemId = i,
-                    ReservationId = request.dto.ReservationId,
-                    Amount = amount,
-                };
-                context.Minibar_Reservations.Add(minibarRes);
-                await context.SaveChangesAsync();
+                    totalPrice += (decimal)item.Item.Price * item.Amount;
+                }
             }
 
             var services = await context.Services_Reservations
@@ -85,6 +78,7 @@ namespace HotelManagement_api.Mediator.Receipts
             };
 
             context.Receipts.Add(receipt);
+            res.Status = false;
             var rowsAffected = await context.SaveChangesAsync();
 
             if (rowsAffected == 0)

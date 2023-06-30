@@ -2,9 +2,10 @@
 
 namespace HotelManagement_api.DTOs
 {
-    public class ReceiptDto
+    public class Minibar_ReservationsDto
     {
         public int ReservationId { get; set; }
-       
+        public int ItemId { get; set; }
+        public int Amount { get; set; }
     }
 }

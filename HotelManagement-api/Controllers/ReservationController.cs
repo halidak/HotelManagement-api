@@ -151,5 +151,20 @@ namespace HotelManagement_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("get-items-reservation/{id}")]
+        public async Task<IActionResult> GetItems(int id)
+        {
+            logger.LogInformation("get items");
+            try
+            {
+                var res = await service.ReservationMinibar(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

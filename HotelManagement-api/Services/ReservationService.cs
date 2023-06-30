@@ -98,7 +98,7 @@ namespace HotelManagement_api.Services
 
         public async Task<Reservation> ReservationById(int id)
         {
-            var res = await context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
+            var res = await context.Reservations.Include(u => u.User).Include(u => u.AccommodationUnit).FirstOrDefaultAsync(r => r.Id == id);
             if (res == null)
             {
                 throw new Exception("reservation does not exist");
@@ -113,7 +113,7 @@ namespace HotelManagement_api.Services
             var res = await context.Reservations.Where(r => r.Status == true).ToListAsync();
             return res;
         }
-
+        
         public async Task<List<Reservation>> GetNotApproved()
         {
             var res = await context.Reservations.Where(r => r.Status == false).ToListAsync();
@@ -153,5 +153,40 @@ namespace HotelManagement_api.Services
 
             return reservationDateRanges;
         }
+
+        public async Task<List<Minibar_Item>> ReservationMinibar(int id)
+        {
+            var res = await context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
+            if (res == null)
+            {
+                throw new Exception("reservation does not exist");
+            }
+
+            var accUnit = await context.AccommodationUnits.FirstOrDefaultAsync(u => u.Id == res.AccommodationUnitId);
+            if (accUnit == null)
+            {
+                throw new Exception("unit does not exist");
+            }
+
+            var minibar = await context.Minibars.FirstOrDefaultAsync(m => m.Id == accUnit.MinibarId);
+            if (minibar == null)
+            {
+                throw new Exception("minibar does not exist");
+            }
+
+            var list = await context.Minibar_Items
+         .Where(mi => mi.MinibarId == minibar.Id)
+         .Include(mi => mi.Item)
+         .Select(mi => new Minibar_Item
+         {
+             Item = mi.Item,
+             Amount = mi.Amount
+         })
+         .ToListAsync();
+
+
+            return list;
+        }
+
     }
 }

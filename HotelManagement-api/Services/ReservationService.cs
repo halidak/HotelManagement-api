@@ -103,7 +103,10 @@ namespace HotelManagement_api.Services
             if (res != null)
             {
                 res.AccommodationUnit.Prices = await context.Prices
-                    .Where(r => r.PeriodOf <= res.CheckOut && r.PeriodTo >= res.CheckIn).ToListAsync();
+                .Where(p => p.AccommodationUnitId == res.AccommodationUnitId &&
+                            p.PeriodOf <= res.CheckOut &&
+                            p.PeriodTo >= res.CheckIn)
+                .ToListAsync();
             }
             if (res == null)
             {

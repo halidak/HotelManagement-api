@@ -98,7 +98,13 @@ namespace HotelManagement_api.Services
 
         public async Task<Reservation> ReservationById(int id)
         {
-            var res = await context.Reservations.Include(u => u.User).Include(u => u.AccommodationUnit).FirstOrDefaultAsync(r => r.Id == id);
+            var res = await context.Reservations.Include(u => u.User).Include(u => u.AccommodationUnit).ThenInclude(u => u.Prices).FirstOrDefaultAsync(r => r.Id == id);
+
+            if (res != null)
+            {
+                res.AccommodationUnit.Prices = await context.Prices
+                    .Where(r => r.PeriodOf <= res.CheckOut && r.PeriodTo >= res.CheckIn).ToListAsync();
+            }
             if (res == null)
             {
                 throw new Exception("reservation does not exist");

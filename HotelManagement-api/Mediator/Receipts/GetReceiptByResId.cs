@@ -31,7 +31,7 @@ namespace HotelManagement_api.Mediator.Receipts
             if (receipt != null)
             {
                 receipt.Reservation.AccommodationUnit.Prices = await context.Prices
-                    .Where(p => p.AccommodationUnitId == receipt.Reservation.AccommodationUnit.Id && p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now)
+                    .Where(p => p.AccommodationUnitId == receipt.Reservation.AccommodationUnit.Id && p.PeriodOf <= receipt.Reservation.CheckOut && p.PeriodTo >= receipt.Reservation.CheckIn)
                     .ToListAsync();
             }
 

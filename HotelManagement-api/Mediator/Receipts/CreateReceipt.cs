@@ -37,8 +37,13 @@ namespace HotelManagement_api.Mediator.Receipts
                 throw new Exception("Unit does not exist");
             }
 
+            DateTime checkInDate = res.CheckIn;
+            DateTime checkOutDate = res.CheckOut;
+
+            int numberOfDays = (int)(checkOutDate - checkInDate).TotalDays;
+
             var price = await context.Prices.FirstOrDefaultAsync(p => p.PeriodOf <= res.CheckIn && p.PeriodTo >= res.CheckOut);
-            var totalPrice = price.PricePerNight * res.NumberOfPeople;
+            var totalPrice = price.PricePerNight * res.NumberOfPeople * numberOfDays;
 
             var minibarItems = await context.Minibar_Reservations.Include(u => u.Item)
                .Where(m => m.ReservationId == request.dto.ReservationId)

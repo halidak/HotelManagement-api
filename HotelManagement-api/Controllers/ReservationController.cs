@@ -1,5 +1,7 @@
 ﻿using HotelManagement_api.DTOs;
+using HotelManagement_api.Mediator.Reservations;
 using HotelManagement_api.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement_api.Controllers
@@ -10,11 +12,13 @@ namespace HotelManagement_api.Controllers
     {
         private readonly ReservationService service;
         private readonly ILogger<ReservationController> logger;
+        private readonly IMediator mediator;
 
-        public ReservationController(ReservationService service, ILogger<ReservationController> logger)
+        public ReservationController(ReservationService service, ILogger<ReservationController> logger, IMediator mediator)
         {
             this.logger = logger;
             this.service = service;
+            this.mediator = mediator;
         }
 
         [HttpPost("request-reservation")]
@@ -92,6 +96,21 @@ namespace HotelManagement_api.Controllers
             }
         }
 
+        [HttpGet("not-approved-without")]
+        public async Task<IActionResult> GetNotAprovedWithout()
+        {
+            logger.LogInformation("all not approved reservations without receipts");
+            try
+            {
+                var res = await service.GetNotApprovedWithoutReceipt();
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("without-receipts")]
         public async Task<IActionResult> GetWithoutReceipt()
         {
@@ -160,6 +179,35 @@ namespace HotelManagement_api.Controllers
             {
                 var res = await service.ReservationMinibar(id);
                 return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("add-service")]
+        public async Task<IActionResult> AddService([FromBody]Service_ReservationsDto dto)
+        {
+            logger.LogInformation("add service");
+            try
+            {
+                var res = await service.AddService(dto);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("user-reservations/{id}")]
+        public async Task<IActionResult> UserReservations(string id)
+        {
+            logger.LogInformation("user reservations");
+            try
+            {
+                return Ok(await mediator.Send(new GetResByUserId(id)));
             }
             catch (Exception ex)
             {

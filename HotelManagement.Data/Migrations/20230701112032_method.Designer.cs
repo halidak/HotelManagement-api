@@ -4,6 +4,7 @@ using HotelManagement_data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelManagement.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230701112032_method")]
+    partial class method
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -319,9 +322,6 @@ namespace HotelManagement.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Uses")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

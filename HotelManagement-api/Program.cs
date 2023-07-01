@@ -67,6 +67,8 @@ builder.Services.AddAuthentication(options =>
 }
 );
 
+
+
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();

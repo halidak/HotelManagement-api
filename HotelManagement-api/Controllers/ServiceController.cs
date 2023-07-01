@@ -61,5 +61,33 @@ namespace HotelManagement_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("all-true")]
+        public async Task<IActionResult> AllTrue()
+        {
+            logger.LogInformation("all true services");
+            try
+            {
+                return Ok(await mediator.Send(new GetAllForUnit()));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("all-false")]
+        public async Task<IActionResult> AllFalse()
+        {
+            logger.LogInformation("all true services");
+            try
+            {
+                return Ok(await mediator.Send(new GetAllForReceipt()));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

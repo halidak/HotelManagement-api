@@ -55,6 +55,7 @@ namespace HotelManagement_api.Mediator.Receipts
             var services = await context.Services_Reservations
                       .Where(s => s.ReservationId == res.Id)
                       .Select(s => s.Service)
+                      .Where(s => s.MethodOfPayment == true)
                       .ToListAsync();
 
             if (services == null)
@@ -69,6 +70,26 @@ namespace HotelManagement_api.Mediator.Receipts
                     totalPrice += s.Price;
                 }
             }
+
+            var services2 = await context.Services_Reservations
+                .Where(s => s.ReservationId == res.Id)
+                .Select(s => new { Service = s.Service, Uses = s.Uses })
+                .Where(s => s.Service.MethodOfPayment == false)
+                .ToListAsync();
+
+            if (services2 == null)
+            {
+                throw new Exception("Services not found");
+            }
+
+            foreach (var s in services2)
+            {
+                if (s.Service != null)
+                {
+                    totalPrice += (decimal)(s.Service.Price * s.Uses);
+                }
+            }
+
 
 
             var receipt = new Receipt

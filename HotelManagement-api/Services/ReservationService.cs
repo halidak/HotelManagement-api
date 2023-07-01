@@ -120,6 +120,16 @@ namespace HotelManagement_api.Services
             return res;
         }
 
+        public async Task<List<Reservation>> GetNotApprovedWithoutReceipt()
+        {
+            var reservations = await context.Reservations
+                .Where(r => r.Status == false && r.Receipts.Count == 0)
+                .ToListAsync();
+
+            return reservations;
+        }
+
+
         public async Task<List<Reservation>> GetWithoutReceipt()
         {
             var res = await context.Reservations.Where(r => r.Receipts.Count == 0 && r.Status == true).ToListAsync();
@@ -188,5 +198,27 @@ namespace HotelManagement_api.Services
             return list;
         }
 
+        public async Task<Services_Reservation> AddService(Service_ReservationsDto dto)
+        {
+            var res = await context.Reservations.FirstOrDefaultAsync(r => r.Id == dto.ReservationId);
+            if (res == null)
+            {
+                throw new Exception("reservation does not exist");
+            }
+            var service = await context.Services.FirstOrDefaultAsync(s => s.Id == dto.ServiceId);
+            if (service == null)
+            {
+                throw new Exception("service does not exist");
+            }
+            var serviceReservation = new Services_Reservation
+            {
+                ReservationId = dto.ReservationId,
+                ServiceId = dto.ServiceId,
+                Uses = dto.Uses
+            };
+            context.Services_Reservations.Add(serviceReservation);
+            await context.SaveChangesAsync();
+            return serviceReservation;
+        }
     }
 }

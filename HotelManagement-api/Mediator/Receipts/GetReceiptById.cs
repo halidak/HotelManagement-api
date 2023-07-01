@@ -25,6 +25,7 @@ namespace HotelManagement_api.Mediator.Receipts
                 .Include(receipts => receipts.Reservation)
                     .ThenInclude(reservation => reservation.Minibar_Reservations)
                         .ThenInclude(mr => mr.Item)
+                .Include(r => r.Reservation.AccommodationUnit)
                 .FirstOrDefaultAsync(a => a.Id == request.id);
 
             if (receipt == null)

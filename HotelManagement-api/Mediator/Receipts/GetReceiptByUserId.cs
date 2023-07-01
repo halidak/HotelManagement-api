@@ -25,8 +25,17 @@ namespace HotelManagement_api.Mediator.Receipts
                 .ThenInclude(service => service.Services_Reservations)
                 .Include(receipts => receipts.Reservation)
                 .ThenInclude(items => items.Minibar_Reservations)
+                .Include(r => r.Reservation.AccommodationUnit)
+                .ThenInclude(unit => unit.Prices)
                 .Where(a => a.Reservation.UserId == request.id)
                 .ToList();
+
+            //if (receipt != null)
+            //{
+            //    receipt.Reservation.AccommodationUnit.Prices = await context.Prices
+            //        .Where(p => p.AccommodationUnitId == receipt.Reservation.AccommodationUnit.Id && p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now)
+            //        .ToListAsync();
+            //}
 
             if (receipt == null)
             {

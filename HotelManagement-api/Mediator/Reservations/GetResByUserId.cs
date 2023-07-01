@@ -20,6 +20,7 @@ namespace HotelManagement_api.Mediator.Reservations
            var list = await context.Reservations
                 .Include(r => r.Services_Reservations)
                 .Include(r => r.Minibar_Reservations)
+                .Include(r => r.Receipts)
                 .Where(r => r.UserId == request.id)
                 .ToListAsync();
 

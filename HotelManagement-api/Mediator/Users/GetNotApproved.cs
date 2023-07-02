@@ -18,7 +18,7 @@ namespace HotelManagement_api.Mediator.Users
         public async Task<List<User>> Handle(GetNotApproved request, CancellationToken cancellationToken)
         {
             var list = await unitOfWork.UserRepository.GetAll();
-            list = list.Where(u => u.Approved == false && u.RoleId == 2 && u.RoleId == 4)
+            list = list.Where(u => u.Approved == false && (u.RoleId == 2 || u.RoleId == 4))
                 .ToList();
             return list;
         }

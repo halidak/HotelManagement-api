@@ -19,12 +19,12 @@ namespace HotelManagement_api.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]UnitQueryDto dto)
         {
             logger.LogInformation("Get all units");
             try
             {
-                return Ok(await mediator.Send(new GetAll()));
+                return Ok(await mediator.Send(new GetAll(dto)));
             }
             catch (Exception ex)
             {

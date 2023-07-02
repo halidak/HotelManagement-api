@@ -214,5 +214,19 @@ namespace HotelManagement_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("all-reservations")]
+        public async Task<IActionResult> AllReservations()
+        {
+            logger.LogInformation("user reservations");
+            try
+            {
+                return Ok(await mediator.Send(new GetAllReservations()));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

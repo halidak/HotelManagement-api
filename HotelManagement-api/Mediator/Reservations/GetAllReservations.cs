@@ -22,6 +22,7 @@ namespace HotelManagement_api.Mediator.Reservations
                  .Include(r => r.Services_Reservations)
                  .Include(r => r.Minibar_Reservations)
                  .Include(r => r.Receipts)
+                 .Include(u => u.AccommodationUnit)
                  .ToListAsync();
 
             return list;

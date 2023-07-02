@@ -119,13 +119,13 @@ namespace HotelManagement_api.Services
 
         public async Task<List<Reservation>> GetAllApproved() 
         {
-            var res = await context.Reservations.Where(r => r.Status == true).ToListAsync();
+            var res = await context.Reservations.Where(r => r.Status == true).Include(u => u.AccommodationUnit).ToListAsync();
             return res;
         }
         
         public async Task<List<Reservation>> GetNotApproved()
         {
-            var res = await context.Reservations.Where(r => r.Status == false).ToListAsync();
+            var res = await context.Reservations.Where(r => r.Status == false).Include(u => u.AccommodationUnit).ToListAsync();
             return res;
         }
 
@@ -133,6 +133,7 @@ namespace HotelManagement_api.Services
         {
             var reservations = await context.Reservations
                 .Where(r => r.Status == false && r.Receipts.Count == 0)
+                .Include(u => u.AccommodationUnit)
                 .ToListAsync();
 
             return reservations;
@@ -141,7 +142,7 @@ namespace HotelManagement_api.Services
 
         public async Task<List<Reservation>> GetWithoutReceipt()
         {
-            var res = await context.Reservations.Where(r => r.Receipts.Count == 0 && r.Status == true).ToListAsync();
+            var res = await context.Reservations.Where(r => r.Receipts.Count == 0 && r.Status == true).Include(u => u.AccommodationUnit).ToListAsync();
             return res;
         }
 

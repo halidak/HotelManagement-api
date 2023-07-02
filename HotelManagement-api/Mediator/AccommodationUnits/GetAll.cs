@@ -64,7 +64,7 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
                 selectedColumn = sortColumns[request.dto.SortBy];
             }
 
-            request.dto.PageSize = 1;
+            request.dto.PageSize = 2;
 
             query = query.ApplySorting(request.dto, sortColumns);
             query = query.ApplyPaging(request.dto);

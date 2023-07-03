@@ -64,16 +64,18 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
                 selectedColumn = sortColumns[request.dto.SortBy];
             }
 
-            request.dto.PageSize = 2;
+            //request.dto.PageSize = 3;
+            var totalCount = await query.CountAsync();
 
             query = query.ApplySorting(request.dto, sortColumns);
             query = query.ApplyPaging(request.dto);
 
             var list = await query.ToListAsync();
 
+
             QueryResultsDTO<AccommodationUnit> result = new QueryResultsDTO<AccommodationUnit>
             {
-                TotalItems = list.Count,
+                TotalItems = totalCount,
                 Items = list
             };
 

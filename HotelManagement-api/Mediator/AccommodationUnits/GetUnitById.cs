@@ -28,7 +28,7 @@ namespace HotelManagement_api.Mediator.AccommodationUnits
             if (unit != null)
             {
                 unit.Prices = await context.Prices
-                    .Where(p => p.AccommodationUnitId == unit.Id && p.PeriodOf <= DateTime.Now && p.PeriodTo >= DateTime.Now)
+                    .Where(p => p.AccommodationUnitId == unit.Id && p.PeriodOf <= DateTime.UtcNow && p.PeriodTo >= DateTime.UtcNow)
                     .ToListAsync();
             }
 
